@@ -12,6 +12,10 @@ body {
   }
 }
 
+.data-\[state\=on\]\:bg-accent[data-state="on"] {
+  background-color: black;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

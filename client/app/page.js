@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-neutral-950 text-gray-900 dark:text-gray-100">
       <Navbar />
-      <div className="md:flex flex-col mt-0 items-center md:justify-center py-8">
+      <div className="flex flex-col mt-0 items-center justify-center pb-8">
         <SearchBox /> {/* Add the search box */}
         <MainAccordion />
       </div>

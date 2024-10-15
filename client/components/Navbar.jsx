@@ -6,7 +6,7 @@ export default function Navbar() {
 
 
   return (
-    <nav className="flex items-center justify-between p-4 bg-gray-100 dark:bg-neutral-950 text-black dark:text-white dark:border-neutral-700 border-neutral-300 border-b-1">
+    <nav className="flex items-center justify-between p-4 bg-gray-100 dark:bg-neutral-950 text-black dark:text-white dark:border-neutral-700 border-neutral-300 border-b-0">
       <h1 className="text-xl font-bold">Eco-Friendly Recipe Finder</h1>
       <button
         onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
