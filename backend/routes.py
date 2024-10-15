@@ -13,19 +13,28 @@ def search():
     query_item = request.args.get('item')
     page = int(request.args.get('page', 1))
     items_per_page = int(request.args.get('items_per_page', 10))
+    revert = request.args.get('revert', 'false').lower() == 'true'
 
     # Check if a search query is provided
     if not query_item:
         return jsonify({"error": "No item provided"}), 400
 
     # Find the alternatives using the updated search function
-    item_footprint, paginated_alternatives, total_items = find_alternatives(df, query_item, page, items_per_page)
+    item_footprint, alternatives, total_items = find_alternatives(df, query_item)
 
-    # If the item is not found, return an error
+    # Check if item was found
     if item_footprint is None:
         return jsonify({"error": "Item not found"}), 404
 
-    # Return the carbon footprint and paginated alternatives with additional info
+    # Sort the alternatives based on the revert flag
+    if revert:
+        alternatives = alternatives[::-1]  # Reverse the list
+
+    # Paginate the sorted alternatives
+    start = (page - 1) * items_per_page
+    end = start + items_per_page
+    paginated_alternatives = alternatives[start:end]
+
     return jsonify({
         "searched_item": query_item,
         "carbon_footprint": item_footprint,
@@ -34,4 +43,5 @@ def search():
         "page": page,
         "items_per_page": items_per_page
     })
+
 
