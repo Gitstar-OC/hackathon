@@ -16,12 +16,17 @@ import Results from "./Results";
 export default function SearchBox() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1); // Add state for current page
+  const [itemsPerPage] = useState(10); // Set items per page
+
   const router = useRouter();
 
-  const fetchResults = async (searchQuery) => {
+  const fetchResults = async (searchQuery, page = 1) => {
     try {
       const response = await fetch(
-        `https://hackathon-z4ug.onrender.com/api/search?item=${encodeURIComponent(searchQuery)}`,
+        `https://hackathon-z4ug.onrender.com/api/search?item=${encodeURIComponent(
+          searchQuery
+        )}&page=${page}&items_per_page=${itemsPerPage}`,
         {
           method: "GET",
           headers: {
@@ -36,10 +41,7 @@ export default function SearchBox() {
 
       const data = await response.json();
       setResults(data);
-      router.push({
-        pathname: router.pathname,
-        query: { item: searchQuery },
-      });
+      setCurrentPage(page); // Update the current page
     } catch (error) {
       console.error("Error fetching results:", error);
     }
@@ -47,7 +49,11 @@ export default function SearchBox() {
 
   const handleItemClick = (selectedQuery) => {
     setQuery(selectedQuery);
-    fetchResults(selectedQuery);
+    fetchResults(selectedQuery, 1); // Reset to first page on new search
+  };
+
+  const handlePageChange = (page) => {
+    fetchResults(query, page);
   };
 
   return (
@@ -76,7 +82,14 @@ export default function SearchBox() {
       </Command>
 
       {/* Render Results if they exist */}
-      {results && <Results results={results} />}
+      {results && (
+        <Results
+          results={results}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 }

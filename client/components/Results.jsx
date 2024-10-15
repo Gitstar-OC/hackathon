@@ -1,36 +1,41 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ComboboxDemo } from "./ComboboxDemo"; // Import the Combobox component
+import { ComboboxDemo } from "./ComboboxDemo"; 
 import { useState } from "react";
-import { Toggle } from "@/components/ui/toggle"; // Assuming you have a Toggle component for sorting
+import { Toggle } from "@/components/ui/toggle"; 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
-const Results = ({ results }) => {
+const Results = ({ results, currentPage, itemsPerPage, onPageChange }) => {
   const searchedItem = results?.searched_item || "";
   const carbonFootprint = results?.carbon_footprint || "";
   const alternatives = results?.alternatives || [];
 
   const [selectedMetric, setSelectedMetric] = useState(
     "Emissions per kilogram"
-  ); // State for selected metric
-  const [isReversed, setIsReversed] = useState(false); // State for toggle sorting
+  ); 
+  const [isReversed, setIsReversed] = useState(false); 
 
-  // Map the selected metric to the corresponding key in the alternatives object
   const metricKeyMap = {
     "Emissions per kilogram": "Emissions per kilogram",
     "Emissions per 100 grams of protein": "Emissions per 100 grams of protein",
     "Emissions per 100 grams of fat": "Emissions per 100 grams of fat",
   };
 
-  // Handle metric change
   const handleMetricChange = (newMetric) => {
     setSelectedMetric(newMetric);
   };
 
-  // Toggle reverse sorting
   const toggleSorting = () => {
     setIsReversed(!isReversed);
   };
 
-  // Sort the alternatives based on the selected metric
   const sortedAlternatives = [...alternatives].sort((a, b) => {
     const aValue = parseFloat(a[metricKeyMap[selectedMetric]]) || 0;
     const bValue = parseFloat(b[metricKeyMap[selectedMetric]]) || 0;
@@ -92,6 +97,32 @@ const Results = ({ results }) => {
             </tbody>
           </table>
         </div>
+
+        {/* Pagination Controls */}
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} />
+            </PaginationItem>
+            {[...Array(3)].map((_, i) => (
+              <PaginationItem key={i}>
+                <PaginationLink
+                  href="#"
+                  isActive={currentPage === i + 1}
+                  onClick={() => onPageChange(i + 1)}
+                >
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" onClick={() => onPageChange(currentPage + 1)} />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </ScrollArea>
   );
