@@ -36,7 +36,6 @@ export default function SearchBox() {
 
       const data = await response.json();
       setResults(data);
-      // Push the query to the URL after successfully fetching data
       router.push({
         pathname: router.pathname,
         query: { item: searchQuery },
@@ -76,6 +75,7 @@ export default function SearchBox() {
         </CommandList>
       </Command>
 
+      {/* Render Results if they exist */}
       {results && <Results results={results} />}
     </div>
   );
