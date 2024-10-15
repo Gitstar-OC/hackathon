@@ -1,6 +1,8 @@
 "use client";
+
 import searchQueries from "@/lib/constant.js";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Command,
   CommandEmpty,
@@ -14,15 +16,17 @@ import Results from "./Results";
 export default function SearchBox() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState(null);
-  const [open, setOpen] = useState(false);
+  const router = useRouter();
 
-  const fetchResults = async (query) => {
+  const fetchResults = async (searchQuery) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/search?item=${encodeURIComponent(query)}`,
+        `http://localhost:5000/api/search?item=${encodeURIComponent(searchQuery)}`,
         {
           method: "GET",
-          "Content-Type": "application/json",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
@@ -31,7 +35,12 @@ export default function SearchBox() {
       }
 
       const data = await response.json();
-      setResults(data.alternatives);
+      setResults(data);
+      // Push the query to the URL after successfully fetching data
+      router.push({
+        pathname: router.pathname,
+        query: { item: searchQuery },
+      });
     } catch (error) {
       console.error("Error fetching results:", error);
     }
@@ -40,7 +49,6 @@ export default function SearchBox() {
   const handleItemClick = (selectedQuery) => {
     setQuery(selectedQuery);
     fetchResults(selectedQuery);
-    setOpen(false);
   };
 
   return (
@@ -68,7 +76,7 @@ export default function SearchBox() {
         </CommandList>
       </Command>
 
-      <Results results={results} />
+      {results && <Results results={results} />}
     </div>
   );
 }

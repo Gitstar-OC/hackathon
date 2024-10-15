@@ -10,18 +10,19 @@ carbon_data = pd.read_csv(r'C:/Users/chand/Nova Hacks/backend/machine-learning/f
 # print(carbon_data.head(25))
 # print(carbon_data.shape)
 
-pd.set_option('display.max_rows', None)  # Show all rows
+# pd.set_option('display.max_rows', None)  # Show all rows
 pd.set_option('display.max_columns', None)  # Show all columns
 
 # print(carbon_data)
-entity_column = carbon_data['Entity']
+print(carbon_data)
+# entity_column = carbon_data['Entity']
 
 # Print each entity in the desired format
 # for index, entity in enumerate(entity_column):
 #     print(f"{index}: {entity}")
 
-for entity in entity_column:
-    print(f"{entity}")
+# for entity in entity_column:
+#     print(f"{entity}")
 
 # Check for missing values
 # print(carbon_data.isnull().sum())

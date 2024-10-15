@@ -21,4 +21,4 @@ def find_alternatives(df, query_item):
     # Find alternatives with a lower carbon footprint
     alternatives = df[df['Emissions per kilogram'] < item_footprint].sort_values('Emissions per kilogram')
 
-    return item_footprint, alternatives[['Entity', 'Emissions per kilogram']].to_dict(orient='records')
+    return item_footprint, alternatives[['Entity', 'Emissions per kilogram', 'Emissions per 100 grams of protein', 'Emissions per 100 grams of fat']].to_dict(orient='records')
