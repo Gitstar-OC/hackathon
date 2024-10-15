@@ -21,7 +21,7 @@ export default function SearchBox() {
   const fetchResults = async (searchQuery) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/search?item=${encodeURIComponent(searchQuery)}`,
+        `https://hackathon-z4ug.onrender.com/api/search?item=${encodeURIComponent(searchQuery)}`,
         {
           method: "GET",
           headers: {
