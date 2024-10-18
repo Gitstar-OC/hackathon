@@ -1,5 +1,5 @@
 from flask import Flask
-from routes import routes
+from routes import create_routes  # Updated import
 from flask_cors import CORS
 from flask_caching import Cache
 from data import load_data  # Import your data loading function here
@@ -17,7 +17,8 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 df = load_data()  # Load your data here
 cache.set('carbon_data', df)
 
-# Register the routes
+# Register the routes, and pass the cache to routes
+routes = create_routes(cache)
 app.register_blueprint(routes, url_prefix='/api')
 
 if __name__ == '__main__':
