@@ -12,7 +12,6 @@ export default function Home() {
       <Navbar />
       <div className="flex flex-col mt-0 items-center justify-center pb-8">
         <Alert>
-          <RocketIcon className="h-4 w-4" />
           <AlertTitle>Heads up!</AlertTitle>
           <AlertDescription>
             You can add components to your app using the cli.
