@@ -1,13 +1,11 @@
 from flask import Blueprint, request, jsonify
-from data import load_data
 from search import find_alternatives
+from flask_caching import Cache
 
 # Create a Blueprint for routes
 routes = Blueprint('routes', __name__)
 
-# Load the data when the app starts
-df = load_data()
-
+# Load cached data during the search
 @routes.route('/search', methods=['GET'])
 def search():
     query_item = request.args.get('item')
@@ -18,6 +16,9 @@ def search():
     # Check if a search query is provided
     if not query_item:
         return jsonify({"error": "No item provided"}), 400
+
+    # Load the cached data
+    df = Cache().get('carbon_data')
 
     # Find the alternatives using the updated search function
     item_footprint, alternatives, total_items = find_alternatives(df, query_item)
@@ -43,5 +44,3 @@ def search():
         "page": page,
         "items_per_page": items_per_page
     })
-
-

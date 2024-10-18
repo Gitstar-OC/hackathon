@@ -1,11 +1,11 @@
 import pandas as pd
 
 def load_data():
-    # Load the CSV file containing food footprint data
-    carbon_data = pd.read_csv('machine-learning/food-footprints.csv')
+    # Load only the required columns from the CSV
+    columns_needed = ['Entity', 'Emissions per kilogram', 'Emissions per 100 grams of protein', 'Emissions per 100 grams of fat']
+    
+    # Read the specific columns only
+    carbon_data = pd.read_csv('machine-learning/food-footprints.csv', usecols=columns_needed)
 
-    # Print first few rows of data for debugging
-    # print(carbon_data[['Entity', 'Emissions per kilogram', 'Emissions per 100 grams of protein', "Emissions per 100 grams of fat"]].head())
-
-    # Return the full dataframe for further use
+    # Return the dataframe with the selected columns
     return carbon_data
