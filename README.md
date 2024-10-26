@@ -1,3 +1,1 @@
-# Nova Hacks Project
-
-This is the project of Gitstar - OC (OC) for Nova Hacks Hackathon. 
+## [OC Coder's](https://devpost.com/Gitstar-OC) Hackathon project
